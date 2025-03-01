@@ -1,0 +1,29 @@
+with tickers_ranked as (
+select ticker
+      , to_char(date, 'Mon-YYYY') as month_year
+      , open
+      , row_number() over (partition by ticker order by open) as rnk
+      , count(*) over (partition by ticker) as last_row
+from stock_prices
+),
+highest_month_tickers as (
+select ticker
+      , month_year
+      , open
+from tickers_ranked
+where rnk = last_row),
+lowest_month_tickers as (
+select ticker
+      , month_year
+      , open
+from tickers_ranked
+where rnk = 1
+)
+select lmt.ticker
+      , hmt.month_year as highest_month
+      , hmt.open as highest_open
+      , lmt.month_year as lowest_month
+      , lmt.open as lowest_open
+from lowest_month_tickers lmt
+join highest_month_tickers hmt
+on lmt.ticker = hmt.ticker
