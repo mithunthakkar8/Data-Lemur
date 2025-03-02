@@ -1,16 +1,17 @@
-with transactions_consecutive_check as (
-select *
-      , transaction_date - Interval '1 day' * row_number() 
-          over (partition by user_id order by transaction_date) as check_consecutive
-from transactions),
-consecutive_dates_marked as (
-select user_id    
-    , amount
-    , transaction_date
-    , count(*) over (partition by check_consecutive) as consecutive_window
-from transactions_consecutive_check
+WITH transactions_consecutive_check AS (
+    SELECT user_id,
+           transaction_date,
+           amount,
+           transaction_date - INTERVAL '1 day' * ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY transaction_date) AS check_consecutive
+    FROM transactions
+),
+consecutive_dates_marked AS (
+    SELECT user_id, 
+           COUNT(*) AS consecutive_window
+    FROM transactions_consecutive_check
+    GROUP BY user_id, check_consecutive
+    HAVING COUNT(*) >= 3
 )
-select distinct user_id    
-from consecutive_dates_marked
-where consecutive_window >= 3
-order by user_id
+SELECT DISTINCT user_id 
+FROM consecutive_dates_marked
+ORDER BY user_id;
