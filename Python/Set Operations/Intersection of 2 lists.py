@@ -4,8 +4,6 @@ def intersection(a, b):
   # Create frequency count of elements in both lists
   a = Counter(a)  # Dictionary-like object with element counts from lst1
   b = Counter(b)  # Dictionary-like object with element counts from lst2
-
-  print(a&b)
   
   # Perform element-wise intersection (keeps min count from both lists) 
   # ensuring duplicates are accounted for
