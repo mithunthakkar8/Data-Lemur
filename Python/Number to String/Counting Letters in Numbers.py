@@ -1,14 +1,4 @@
 def total_letters(N):
-    """
-    Calculates the total number of letters used when writing out numbers from 1 to N in words,
-    without spaces or hyphens.
-    
-    Parameters:
-    N (int): The upper limit of numbers to consider (e.g., 1000 for numbers 1 to 1000).
-    
-    Returns:
-    int: The total count of letters used.
-    """
     
     # Mapping of numbers to their word equivalents
     mapping = {
