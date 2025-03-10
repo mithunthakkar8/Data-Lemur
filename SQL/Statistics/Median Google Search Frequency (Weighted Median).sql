@@ -6,6 +6,6 @@ with OrderedData as (
 )
 select round(avg(searches),1) as median
 from OrderedData
-where cumulative_users between total_users/2
-    and total_users/2+1
+where cumulative_users between total_users*1.0/2
+    and total_users*1.0/2+1 
 
