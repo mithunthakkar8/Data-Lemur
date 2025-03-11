@@ -11,6 +11,7 @@ def generate(numRows):
         
         # Iterate through the inner elements of the row
         # range(1, i) ensures we skip the first two rows of the triangle as this loop would start when i=2
+        # also ensures that j starts from 1 and ends at i-1 which skips the first and last elements in the sublist
         for j in range(1, i):
             # Compute the value using the sum of two elements directly above in the previous row
             pascal[i][j] = pascal[i-1][j] + pascal[i-1][j-1]
